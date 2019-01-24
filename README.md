@@ -1,3 +1,3 @@
 # personal
+# jonathan yu
 My personal projects
-Jonathan Yu
