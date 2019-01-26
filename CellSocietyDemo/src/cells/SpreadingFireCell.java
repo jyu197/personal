@@ -34,12 +34,15 @@ public class SpreadingFireCell extends Cell {
     // TODO Need comment for overriden function?
     /**
      * Calculates and sets the next state based of off current state and neighbors' states (does not perform update)
+     * Also helps Simulator determine if it should end
      * Will be called by Simulator when performing a step
      * @param neighbors map where the key is the direction of the neighbor (N, NE, E, SE, S, SW, W, NW) and the value is
      * the neighbor's state (-1, 0, 1, 2) (NOTE: a state of -1 is for a neighbor that does not exist within the grid)
+     * @returns true if this cell is blocking the end of the simulator, false otherwise. A SpreadingFireCell that blocks
+     * ending is only one that is burning (if no trees are burning, no more changes will occur to the grid)
      */
     @Override
-    public void setNextState(Map<String, Integer> neighbors) {
+    public boolean setNextState(Map<String, Integer> neighbors) {
         // cell states (NOTE: empty can be no tree or burned down tree)
         final int EMPTY =  0;
         final int TREE = 1;
@@ -51,12 +54,15 @@ public class SpreadingFireCell extends Cell {
         neighbors.remove("SW");
         neighbors.remove("NW");
 
+        boolean blockingEnding = false;
+
         // if a tree is next to a burning tree, it will catch fire with a probability of probCatch
         if (currState == TREE && neighbors.containsValue(BURNING)) {
             // TODO Better to do this conversion or make probCatch an integer?
             int rand = new Random().nextInt(100);
             if (rand < probCatch * 100) {
                 nextState = BURNING;
+                blockingEnding = true;
             }
 
         }
@@ -68,6 +74,7 @@ public class SpreadingFireCell extends Cell {
         else {
             nextState = currState;
         }
+        return blockingEnding;
     }
 
     /**

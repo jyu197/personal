@@ -1,4 +1,4 @@
 Format: CA_Name states population_percentages misc NOTES
 Notes: Lists must be separated by commas,not whitespace. Percentages must be integers between 0 and 100.
 
-SpreadingFire 0,1,2 45,45,10 1.0 Note: misc must be a single double value between 0.0 and 1.0.
+SpreadingFire 0,1,2 35,55,10 1.0 Note: misc must be a single double value between 0.0 and 1.0.

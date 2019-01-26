@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-// TODO add functionality to know when to end simulation and refactor Main accordingly
 /**
  * Class to represent a general Cell Automaton and simulate it
  *
@@ -69,14 +68,21 @@ public class Simulator {
 
     /**
      * Iterates through grid and calculates each cell's next state by calling its setNextState function
+     * Also determines if the simulator should end (no more changes will occur on future steps)
      * Will be called by the Main class to continue the simulation
+     * @returns false if the sim should end (no cells are blocking ending), true if the sim should continue
      */
-    public void step() {
+    public boolean step() {
+        boolean ending = true;
         for (int i = 0; i < gridSideSize; i++) {
             for (int j = 0; j < gridSideSize; j++) {
-                grid[i][j].setNextState(getNeighborStates(i, j));
+                // setNextState returns true if the cell IS blocking the ending
+                if (grid[i][j].setNextState(getNeighborStates(i, j))) {
+                    ending = false;
+                };
             }
         }
+        return ending;
     }
 
     /**

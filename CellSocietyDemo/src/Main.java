@@ -15,7 +15,9 @@ import java.util.*;
 public class Main {
 
     // TODO Is an instance variable scanner bad?
-    private final Scanner sc = new Scanner(System.in);
+    // user input
+    private final Scanner SC = new Scanner(System.in);
+    private final String BAD_ANSWER_TO_Y_OR_N = "Error: Invalid answer (Must be 'y' or 'n')";
 
     // TODO Should this be a local variable that is returned by readConfig?
     /**
@@ -34,16 +36,14 @@ public class Main {
      * Get user input and set up the simulator and visualizer
      */
     private void start() {
-        readConfig();
-        System.out.println("Welcome to Cell Society");
-        System.out.println();
         // prompt for user input for grid size
         int size;
+        System.out.println();
         while (true) {
             // prompt for user input
             System.out.println("What size should the grid side be?");
             try {
-                size = Integer.parseInt(sc.nextLine());
+                size = Integer.parseInt(SC.nextLine());
             }
             catch (NumberFormatException e) {
                 System.out.println("Error: Not an integer");
@@ -62,7 +62,7 @@ public class Main {
                     String.join(", ", configInfo.keySet()) + ")");
 
             // setup the simulator and visualizer
-            if (sc.nextLine().equals("SpreadingFire")) {
+            if (SC.nextLine().equals("SpreadingFire")) {
                 sim = new Simulator(new SpreadingFireCell(0), size, configInfo.get("SpreadingFire").get(1));
                 vis = new Visualizer(sim);
                 break;
@@ -103,7 +103,9 @@ public class Main {
             }
         }
         catch (FileNotFoundException e) {
-            // will never get here because config.txt will always exist
+            // only for debugging, will never get here in release because config.txt will always exist
+            System.out.println("ERROR: config.txt not set up properly. Check code.");
+            System.exit(-1);
         }
     }
 
@@ -136,40 +138,70 @@ public class Main {
     // TODO For continuous running, use Threads to "slow down" display?
     /**
      * Run and display the simulator in one step at a time or 10 steps at a time (continuing based off of user input)
+     * Also ends the simulator if applicable
      */
     private void run() {
         // determine run interval (1 or 10 steps at a time)
         System.out.println("Would you like to run the simulator one step at a time (if not, will run 10 steps at a " +
                 "time)? (y/n)");
-        String answer = sc.nextLine();
-        System.out.println();
+        String answer = SC.nextLine();
         int stepsAtATime = 1;
         if (answer.equals("n")) {
             stepsAtATime = 10;
         }
         else if (!answer.equals("y")) {
-            System.out.println("Error: Invalid answer (Must be 'y' or 'n')");
+            System.out.println(BAD_ANSWER_TO_Y_OR_N);
             run(); // recursive call here to not have to make nested while loops
         }
+        System.out.println();
         while (true) {
             for (int i = 0; i < stepsAtATime; i++) {
-                sim.step();
+                boolean ending = sim.step();
                 vis.display();
+                if (ending) {
+                    System.out.println("Simulation has ended (no further changes will occur).");
+                    restart();
+                    return; // if user does not want to restart need to end program still
+                }
                 System.out.println();
             }
             System.out.println("Would you like to continue? (y/n)");
-            String answer2 = sc.nextLine();
+            String answer2 = SC.nextLine();
             if (answer2.equals("n")) {
                 System.out.println("EXITING");
-                break;
+                return;
             }
             else if (!answer2.equals("y")) {
-                System.out.println("Error: Invalid answer (Must be 'y' or 'n')");
+                System.out.println(BAD_ANSWER_TO_Y_OR_N);
+            }
+        }
+    }
+
+    private void restart() {
+        System.out.println("EXITING");
+        System.out.println();
+        while (true) {
+            System.out.println("Would you like to restart (y/n)?");
+            String answer = SC.nextLine();
+            if (answer.equals("y")) {
+                start();
+            }
+            else if (answer.equals("n")) {
+                System.out.println();
+                System.out.println("Goodbye");
+                return;
+            }
+            else {
+                System.out.println(BAD_ANSWER_TO_Y_OR_N);
             }
         }
     }
 
     public static void main(String[] args) {
-        new Main().start();
+        Main main = new Main();
+        main.readConfig();
+        System.out.println();
+        System.out.println("Welcome to Cell Society");
+        main.start();
     }
 }

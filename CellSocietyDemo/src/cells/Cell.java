@@ -21,11 +21,13 @@ public abstract class Cell {
 
     /**
      * Calculates and sets the next state based of off current state and neighbors' states (does not perform update)
-     * Will be called by .Simulator when performing a step
+     * Also helps Simulator determine if it should end
+     * Will be called by Simulator when performing a step
      * @param neighbors map where the key is the direction of the neighbor (N, NE, E, SE, S, SW, W, NW) and the value is
      * the neighbor's state (-1, 0, 1, 2) (NOTE: a state of -1 is for a neighbor that does not exist within the grid)
+     * @returns true if this cell is blocking the end of the simulator, false otherwise
      */
-    public abstract void setNextState(Map<String, Integer> neighbors);
+    public abstract boolean setNextState(Map<String, Integer> neighbors);
 
     /**
      * Returns the possible states of this cell
