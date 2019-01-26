@@ -1,3 +1,3 @@
-# CellSociety Demo
-## Jonathan Yu
-Just a basic implementation of CellSociety with a Spreading Fire Cell Automaton
+# CellSocietyDemo
+## jonathan yu
+just a basic implementation of CellSociety with a Spreading Fire Cell Automaton
