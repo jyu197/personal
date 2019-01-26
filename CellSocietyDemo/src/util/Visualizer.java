@@ -14,6 +14,11 @@ public class Visualizer {
     public Visualizer(Simulator sim) {
         simulator = sim;
     }
+
+    public void showDisplayKey() {
+        System.out.println(simulator.getCell().getDisplayKey());
+    }
+
     // TODO Is saving an iteration worth it? This implementation puts Visualizer in charge of actually updating the grid
     // TODO which messes up the encapsulation. Also, you must run display at least once to simulate, otherwise the grid
     // TODO Does the reason for updating prior to displaying the initial grid (lines 3-4 of the function description) make sense?

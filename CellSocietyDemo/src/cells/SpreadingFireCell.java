@@ -11,15 +11,14 @@ import java.util.Random;
 public class SpreadingFireCell extends Cell {
 
     // TODO Are private static variables ok?
-
     /**
      * the probability that a tree next to a burning tree will also catch on fire
       */
     private static double probCatch;
 
     public SpreadingFireCell(int curr) {
-        super(curr);
-        states = new int[]{0, 1, 2};
+        super(curr, "Display Key: _(empty)  T(tree)  W(burning)");
+        states = new int[]{0, 1, 2}; // states are fixed in SpreadingFire
     }
 
     // TODO Is this implementation ok?
@@ -78,12 +77,33 @@ public class SpreadingFireCell extends Cell {
     }
 
     /**
+     * Updates the cell's state (current state becomes next state) and returns the updated state in display form (_ T X)
+     * Will be called by Visualizer (Visualizer updates in order to save an iteration through the grid, see Visualizer)
+     * @returns String representing the updated state in display form (_ T X)
+     */
+    @Override
+    public String updateAndGetState() {
+        currState = nextState;
+        if (currState == 0) {
+            return "_";
+        }
+        else if (currState == 1) {
+            return "T";
+        }
+        else {
+            return "W";
+        }
+    }
+
+    /**
      * Returns a new instance of a SpreadingFireCell for use by the Simulator to populate the grid
      * @param curr int representing the current state
-     * @return new instance of SpreadingFireCell
+     * @returns new instance of SpreadingFireCell
      */
     @Override
     public SpreadingFireCell newInstance(int curr) {
         return new SpreadingFireCell(curr);
     }
+
+
 }

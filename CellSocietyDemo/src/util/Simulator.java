@@ -89,7 +89,7 @@ public class Simulator {
      * Returns a map of the cell's neighbors' states
      * @param x int, outer array index ('x' coordinate) of the cell in question
      * @param y int, inner array index ('y' coordinate) of the cell in question
-     * @return a map where the key is the direction of the neighbor (N, NE, E, SE, S, SW, W, NW) and the value
+     * @returns a map where the key is the direction of the neighbor (N, NE, E, SE, S, SW, W, NW) and the value
      * is the neighbor's state (-1, 0, 1, 2) (NOTE: a state of -1 is for a neighbor that does not exist within the grid)
      */
     private Map<String, Integer> getNeighborStates (int x, int y) {
@@ -125,11 +125,21 @@ public class Simulator {
     }
 
     /**
+     * Returns the grid
      * Will be called by the Visualizer, hides the grid implementation
-     * @return 2d array made up of Cell objects representing the grid
+     * @returns 2d array made up of Cell objects representing the grid
      */
     public Cell[][] getGrid() {
         return grid;
+    }
+
+    /**
+     * Returns the sample Cell instance variable that represents the type of CA
+     * Will be called by the Visualizer to show the display key
+     * @returns instance of Cell subclass
+     */
+    public Cell getCell() {
+        return caType;
     }
 
 }

@@ -4,6 +4,8 @@ import java.util.Map;
 
 public abstract class Cell {
 
+    private final String DISPLAY_KEY;
+
     /**
      * store states in a way that a cell's update does not affect other cells' updates
       */
@@ -11,12 +13,13 @@ public abstract class Cell {
     protected int currState;
     protected int nextState;
 
-    public Cell(int curr) {
+    public Cell(int curr, String displayKey) {
         currState = curr;
         // TODO Is having this weird constructor intialization worth saving us from writing an extra method in .Visualizer?
         // initialize this way because .Visualizer updates cells to the nextState and this allows to write 1 display
         // method instead of 2 (one to display initial grid) (see .Visualizer)
         nextState = curr;
+        DISPLAY_KEY = displayKey;
     }
 
     /**
@@ -31,9 +34,9 @@ public abstract class Cell {
 
     /**
      * Returns the possible states of this cell
-     * Will be called by .Simulator when getting possible states to populate the grid with
+     * Will be called by Simulator when getting possible states to populate the grid with
      *
-     * @return array of ints representing the possible states
+     * @returns array of ints representing the possible states
      */
     public int[] getStates() {
         return states;
@@ -41,28 +44,33 @@ public abstract class Cell {
 
     /**
      * Returns the cell's current state
-     * Will be called by .Simulator when getting neighbor states
+     * Will be called by Simulator when getting neighbor states
      *
-     * @return int representing the current state
+     * @returns int representing the current state
      */
     public int getCurrState() {
         return currState;
     }
 
     /**
-     * Updates the cell's state (current state becomes next state) and returns the updated state
-     * Will be called by .Visualizer (.Visualizer updates in order to save an iteration through the grid, see .Visualizer)
-     * @return int representing the nextState
+     * Returns the display key for the type of cell
+     * @returns String representing the display key
      */
-    public int updateAndGetState() {
-        currState = nextState;
-        return currState;
+    public String getDisplayKey() {
+        return DISPLAY_KEY;
     }
+
+    /**
+     * Updates the cell's state (current state becomes next state) and returns the updated state in display form
+     * Will be called by .Visualizer (.Visualizer updates in order to save an iteration through the grid, see .Visualizer)
+     * @returns String representing the updated state in display form
+     */
+    public abstract String updateAndGetState();
 
     /**
      * Returns a new instance of a Cell subclass for use by the .Simulator to populate the grid
      * @param curr int representing the current state
-     * @return new instance of Cell subclass (when overridden)
+     * @returns new instance of Cell subclass (when overridden)
      */
     public abstract Cell newInstance(int curr);
 }

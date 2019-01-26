@@ -71,6 +71,9 @@ public class Main {
                 System.out.println("Error: Not a valid Cell Automaton");
             }
         }
+        System.out.println();
+        vis.showDisplayKey();
+        System.out.println();
         run();
     }
 
@@ -112,7 +115,7 @@ public class Main {
     /**
      * Helper function that takes a string read from config file and converts to corresponding int array
      * @param configString string representing some numerical data read from config file
-     * @return int array version of the configString
+     * @returns int array version of the configString
      */
     private int[] configStringToIntArr (String configString) {
         String[] stringArr = configString.split(",");
