@@ -1,3 +1,3 @@
 # personal
-# jonathan yu
+## jonathan yu
 My personal projects
