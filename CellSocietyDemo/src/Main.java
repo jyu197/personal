@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Main {
 
-    // TODO Is an instance variable scanner bad?
+    // TODO Is an instance variable scanner bad? It probably is.
     // user input
     private final Scanner SC = new Scanner(System.in);
     private final String BAD_ANSWER_TO_Y_OR_N = "Error: Invalid answer (Must be 'y' or 'n')";
@@ -98,6 +98,8 @@ public class Main {
                 data.add(states);
                 data.add(popPercs);
                 configInfo.put(caName, data);
+
+                //TODO Probably better to do this in each Cell subclass in order to maintain strict encapsulation
 
                 // send miscellaneous data to the Cell subclasses
                 String[] misc = fsc.next().split(",");
